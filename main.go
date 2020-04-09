@@ -12,7 +12,7 @@ import (
 	"github.com/faiface/beep/speaker"
 )
 
-func playNotifier() {
+func playNotifierSound() {
 	f, err := os.Open("ding.mp3")
 	if err != nil {
 		log.Fatal(err)
@@ -34,34 +34,39 @@ func playNotifier() {
 	<-done
 }
 
-func startPomodoro() {
-	// Send out a notification, that the pomodoro timer started using notify-send
-	cmd := exec.Command("notify-send", `Pomodoro timer has started!`+"\n"+`Length: 25 Minutes!`)
+func sendNotification(arg string) {
+	cmd := exec.Command("notify-send", arg)
 	_, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Printf("Running notify-send failed: %v", err)
 		return
 	}
-	// Play notifier sound
-	playNotifier()
+	playNotifierSound()
+}
+
+func startPomodoro() {
+	// Send out a notification, that the pomodoro timer started using notify-send
+	sendNotification(`Pomodoro timer has started!` + "\n" + `Length: 25 minutes!`)
 	// Sleep for 25 minutes
-	// time.Sleep(time.Minute * 25)
-	time.Sleep(time.Second * 5)
-	// Notify the user that the timer has been
-	return
+	time.Sleep(time.Minute * 25) // Real timer, uncomment before building
+	// time.Sleep(time.Second * 5)
+	// Notify the user that the timer has stopped
+	sendNotification(`Timer stopped!` + "\n" + `Break period: 5 minutes!`)
+	// Sleep for 5 minutes
+	time.Sleep(time.Minute * 5) // Real timer, uncomment before building
+	// time.Sleep(time.Second * 5)
+	sendNotification(`Break ended!` + "\n" + `Starting new pomodoro cycle!`)
 }
 
 func handler() {
 	flag := os.Args[1]
 	switch flag {
 	case "start":
-		startPomodoro()
-		break
-	case "stop":
-		fmt.Println("stop")
-		break
+		for {
+			startPomodoro()
+		}
 	default:
-		fmt.Println("invalid flag")
+		fmt.Println("Invalid flag!")
 		break
 	}
 }
