@@ -55,7 +55,7 @@ func startPomodoro(cycles int64) {
 		// time.Sleep(time.Second * 1)
 		minutesPassed++
 		t := 25 - minutesPassed
-		sendNotification("Pomodoro Timer\nTime left: " + strconv.FormatInt(t, 10))
+		sendNotification("Pomodoro timer\nTime left: " + strconv.FormatInt(t, 10))
 	}
 	// Notify the user that the timer has stopped
 	sendNotification("Pomodo timer\nCycle has ended.\nStarting a 5 minute break period!")
@@ -66,9 +66,9 @@ func startPomodoro(cycles int64) {
 		// time.Sleep(time.Second * 1)
 		minutesPassed++
 		t := 5 - minutesPassed
-		sendNotification("Pomodoro Timer\nBreak left: " + strconv.FormatInt(t, 10))
+		sendNotification("Pomodoro timer\nBreak left: " + strconv.FormatInt(t, 10))
 	}
-	sendNotification("Pomodoro Timer\nBreak ended.\nStarting new pomodoro cycle!")
+	sendNotification("Pomodoro timer\nBreak ended.\nStarting new pomodoro cycle!")
 }
 
 func handler() {
