@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strconv"
 	"time"
 
 	"github.com/faiface/beep"
@@ -44,26 +45,40 @@ func sendNotification(arg string) {
 	playNotifierSound()
 }
 
-func startPomodoro() {
+func startPomodoro(cycles int64) {
+	var minutesPassed int64 = 0
 	// Send out a notification, that the pomodoro timer started using notify-send
-	sendNotification(`Pomodoro timer has started!` + "\n" + `Length: 25 minutes!`)
+	sendNotification("Pomodoro timer\nThe timer has started!\nCycles: " + strconv.FormatInt(cycles, 10) + "\n Length: 25 minutes!")
 	// Sleep for 25 minutes
-	time.Sleep(time.Minute * 25) // Real timer, uncomment before building
-	// time.Sleep(time.Second * 5)
+	for i := 0; i < 25; i++ {
+		time.Sleep(time.Minute * 1) // Real timer
+		// time.Sleep(time.Second * 1)
+		minutesPassed++
+		t := 25 - minutesPassed
+		sendNotification("Pomodoro Timer\nTime left: " + strconv.FormatInt(t, 10))
+	}
 	// Notify the user that the timer has stopped
-	sendNotification(`Timer stopped!` + "\n" + `Break period: 5 minutes!`)
+	sendNotification("Pomodo timer\nCycle has ended.\nStarting a 5 minute break period!")
 	// Sleep for 5 minutes
-	time.Sleep(time.Minute * 5) // Real timer, uncomment before building
-	// time.Sleep(time.Second * 5)
-	sendNotification(`Break ended!` + "\n" + `Starting new pomodoro cycle!`)
+	minutesPassed = 0
+	for i := 0; i < 5; i++ {
+		time.Sleep(time.Minute * 1) // Real timer
+		// time.Sleep(time.Second * 1)
+		minutesPassed++
+		t := 5 - minutesPassed
+		sendNotification("Pomodoro Timer\nBreak left: " + strconv.FormatInt(t, 10))
+	}
+	sendNotification("Pomodoro Timer\nBreak ended.\nStarting new pomodoro cycle!")
 }
 
 func handler() {
 	flag := os.Args[1]
 	switch flag {
 	case "start":
+		var cycles int64 = 0
 		for {
-			startPomodoro()
+			startPomodoro(cycles)
+			cycles++
 		}
 	default:
 		fmt.Println("Invalid flag!")
