@@ -9,6 +9,7 @@ go get -u github.com/hajimehoshi/oto
 # Build and move the executable to /usr/local/bin
 rm pomodoro-timer # Remove any old executables laying around
 go build .
+sudo rm /usr/local/bin/pomodoro-timer # Remove any old executables
 sudo mv ./pomodoro-timer /usr/local/bin
 
 # Copy sound file to where the executable is

@@ -14,7 +14,7 @@ import (
 )
 
 func playNotifierSound() {
-	f, err := os.Open("ding.mp3")
+	f, err := os.Open("./ding.mp3")
 	if err != nil {
 		log.Fatal(err)
 	}
