@@ -13,8 +13,8 @@ sudo rm /usr/local/bin/pomodoro-timer # Remove any old executables
 sudo mv ./pomodoro-timer /usr/local/bin
 
 # Copy sound file to where the executable is
-sudo rm /usr/local/bin/ding.mp3 # Remove any old sound files
-sudo cp ./ding.mp3 /usr/local/bin
+sudo rm ~/Music/ding.mp3 # Remove any old sound files
+sudo cp ./ding.mp3 ~/Music
 
 # Notify user that it's all done
 echo "Moved the binary to /usr/local/bin"
